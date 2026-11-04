@@ -1,0 +1,69 @@
+import 'package:flutter/material.dart';
+void main() {
+runApp(const MyApp());
+class MyApp extends StatelessWidget {
+const )
+@override
+Widget build(BuildContext context) {
+return MaterialApp(
+
+d ebugSh0wCheckedM0deBanner: false,
+home: const HomePage(),
+class HomePage extends StatelessWidget {
+const HomePage( {super.key}
+final List<Map<String, String>> fruits = const [
+'name': 'Apple' ,
+'price': '080.00',
+'image': 'assets/apple.jpg'
+: 'Orange' ,
+'price': '000.00',
+'image': 'assets/omnge.jpg'
+'name': 'Mango',
+'price': '00.00'
+'image': 'assets/mango.jpg'
+'name': 'Pomegranate' ,
+'price': '050.00',
+'image': 'assets/pomeg.jpg'
+
+@override
+Widget build(BuildContext context) {
+return Scaffold(
+appBar. AppBar(
+title: const Text('Custom List View'),
+centerTit1e: true,
+body: LayoutBuilder(
+builder: (context, constraints) {
+double imageSize =
+constraints.maxWidth < 600 ? 100 : 150;
+retum List View. builder(
+padding: const Edgelnsets.all(l O),
+itemCount: fruits. length,
+itemBuilder•. (context, index) {
+return Card(
+child: Padding(
+padding: const Edgelnsets.all(8),
+child: Row(
+children: [
+// Image
+Image.asset(
+width: imageSize,
+height: imageSize,
+fit: BoxFit.cover,
+const SizedBox(width: 15),
+// Details
+Expand
+
+child: Column(
+crossAxisAlignment:
+CrossAxisAlignment.start ,
+children: [
+Text(
+style: const TextStyle(
+fontSize: 18,
+fontWeight: FontWeight.bold,
+const SizedBox(height: 8),
+Text(
+const SizedBox(height: I O),
+ElevatedB utton(
+onPressed: O {l'
+c
