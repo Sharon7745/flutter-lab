@@ -1,0 +1,66 @@
+import 'package:nutter/material.dan';
+void main() {
+runApp(const MyApp()); }
+24CS2016 - BuildingApplications using Flutter
+class MyApp extends StatelessWidget {
+const MyApp({super.key});
+@override
+Widget build(BuildContext context) {
+retum MaterialApp(
+title: 'Student App',
+debugShowCheckedModeBanner. true,
+home: const StudentApp(),
+class StudentApp extends StatelessWidget {
+const super.key});
+@override
+Widget build(BuildContext context) {
+retum Scaffold(
+appBar. AppBar(
+title: const Text(
+'Student Application'
+style: Textstyle(fontweight: FontWeight.b01d),
+background Color. Colors.blue,
+centerTitle: true,
+
+body: SingleChildScr011View(
+child: Padding(
+padding: const Edgelnsets.all(16),
+child: Column(
+children: [
+const SizedBox(height: 16),
+const Text(
+'Welcome User!!',
+style: TextStyle(fontSize: 18),
+const SizedBox(height: 24),
+const Icon(lcons.call, size: 32),
+const SizedB0x(height: 16),
+const Icon(lcons.person, size:
+const SizedBox(height: 24),
+ElevatedButton(
+onPressed: ()
+style: ElevatedButton.styleFrom(
+background Color. Colors.blue,
+foregroundColor. Colors.white,
+shape: Rounded RectangleBorder(
+borderRadius: BorderRadius.circular(20),
+
+padding: const Edgelnsets.symmetric(
+horizontal: 32,
+vertical: 12,
+child: const TextCSubmit'),
+const SizedBox(height: 24),
+TextFie1d(
+decomtion: InputDecoration(
+hintText: 'Search...',
+prefixlcon: const Icon(lcons.search),
+border. OutlinelnputBorder(
+borderRadius: BorderRadius.circular(12),
+const SizedBox(height: 24),
+Image. network(
+
+'https•]/static.vecteezy.com/systemfresources/previews/033/692/783/non 2x/motorcycle
+rider-rides-on -a-race-track-at-sunset-motion-blur-motorcycle-rider-on-sport-bike-rid cs-fast-on-race-
+track-at-sunset-extreme-athlete-sport-motorcycles-racing-ai-generated -free-photo Jpg' ,
+height: 220,
+fit: BoxFit.contain,
+
