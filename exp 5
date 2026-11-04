@@ -1,0 +1,99 @@
+impon 'package:flutter/material.dan';
+void main() {
+runApp(const MaterialApp(
+debugShowCheckedModeBanner: false,
+home: StudentPage(),
+// FIRST SCREEN
+class StudentPage extends StatelessWidget {
+const StudentPage( { super.key}
+@override
+
+Widget build(BuildContext context) {
+final name = TextEditingControlle();
+final regno = TextEditingContmllet();
+final ml = TextEditingContr011efl);
+final m2 = TextEditingControlle10;
+final m3 = TextEditingController();
+retum Scaffold(
+appBar. AppBar(
+title: const Text('Student Input Screen'),
+backgroundColor. Colors. amber,
+body: Padding(
+padding: const Edgelnsets.all(15),
+child: Column(
+children: [
+TextField(
+controller. name,
+decoration: const InputDecomtion(
+labelText: 'Student Name',
+TextFie1d(
+controller. regno,
+decoration: const InputDecoration(
+labelText: 'Register Number ,
+TextFie1d(
+controller. ml ,
+
+keyboardType: TextlnputType.number,
+decoration: const
+labelText: 'Mark 1',
+TextFie1d(
+controller. m2,
+keyboardType: TextlnputType.number,
+decoration: const InputDecoration(
+labelText: 'Mark 2'
+TextFie1d(
+controller. m3 ,
+keyboard Type: TextlnputType.number,
+decoration: const
+labelText: 'Mark 3',
+const SizedBox(height: 20),
+ElevatedButton(
+child: const Text('Submit'),
+onPressed: () {
+double a = double.parse(ml .text);
+double b = double.parse(m2.text);
+double c double.parse(m3 .text);
+// NAVIGATION
+Navigator. push(
+context,
+
+MaterialPageR0ute(
+builder (context) Resultpage(
+name: name.text,
+regno: regno.text,
+total: a + b + c,
+1,
+// SECOND SCREEN
+class Resultpage extends StatelessWidget {
+final String name;
+final String regno;
+final double total;
+const ResultPage({
+super. key,
+required this.name,
+required this.regno,
+required this. total,
+@override
+Widget build(BuildContext context) {
+
+double average — total / 3;
+double percentage = (total / 300) * 100;
+retum Scaffold(
+appBar. AppBar(
+title: const Text('Student Result Screen'),
+backgroundColor. Colors.amber,
+body. Padding(
+padding: const Edgelnsets.a11(20),
+child : Column(
+children: [
+TextCName: Sname'),
+Text('Register No: Sregno'),
+const SizedBox(height: 20),
+Text('Total Marks: Stotal'),
+TextCAverage: $ {average.t0StringAsFixed(2)}'),
+TextCPercentage: S {percentage.t0StringAsFixed(2)} 0/0'),
+const SizedBox(height: 20),
+ElevatedB utton(
+child: const TextCGo Back'),
+onPressed: () {
+N avigator.pop(context)
