@@ -1,0 +1,94 @@
+import 'package:flutter/material.dart';
+void main() runApp(const MyApp());
+class MyApp extends StatelessWidget {
+const super.key }
+Override
+Widget build(BuildContext context) {
+return const MaterialApp(
+24CS2016 — Building Applications using Flutter
+debugSh0wCheckedM0deBanner: false,
+home: Homepage(),
+class HomePage extends StatefulWidget {
+const HomePage( { super.key) );
+@override
+State<HomePage> createState() HomePageState();
+class HomePageState extends State<HomePage> {
+int round 0;
+// Stores fruit indexes
+final liked = { } ;
+// Fruit details
+final fruits = const [
+'name': 'Apple' ,
+'price': '080',
+'image': 'assets/apple.jpg'
+'name' • 'Orange' ,
+'price': '{100',
+'image': 'assets/orange.Jpg'
+'name': Mango' ,
+'price': '00',
+'image': 'assets/mango.jpg'
+@override
+
+Widget build(BuildContext context) {
+return Scaffold(
+appBar: AppBar(
+title: const Text(Fmits'),
+backgroundC010r: Colors .orange,
+// Replay animation button
+floatingActionButton: FloatingActionButton(
+onPressed: {
+setState(() {
+round++;
+child: const Icon(lcons.replay),
+body: ListView builder(
+key: ValueKey(round),
+itemCount: fiuits.length,
+itemBuilder. (context, index) {
+final fruit = fiuits[indexl;
+// Slide up and fade-in animation
+retum TweenAnimationBuilder<double>(
+tween: Tween(begin: 0, end: 1),
+duration: Duration(
+milliseconds: 800 + index * 500,
+curve: Curves.easeOut,
+builder: (context, value, child) {
+retum Opacity(
+opacity: value,
+child: Transform. translate(
+offset: Offset(O, 100 * (1 - value»
+child: child,
+3
+URK23CS5107
+24CS2016
+- Building Applications using Flutter
+URK23CS5107
+child: Card(
+margin: const Edgelnsets.all(l()),
+child: ListTi1e(
+leading: Image.asset(
+fruit['image']!,
+width: 60,
+height: 60,
+fit: BoxFit.cover,
+title: Text(fruit['name'l!),
+subtitle: Text(fruit['price'l!),
+// Favourite icon animation
+trailing: IconButton(
+onpressed: O {
+liked .contains(index)
+? liked.remove(index)
+: liked.add(index);
+icon: AnimatedSwitcher(
+duration: const Duration(milliseconds: 400),
+transitionBuilder: (child, anim) {
+retum ScaleTransition(
+scale: anim,
+child: child ,
+child: Icon(
+liked ex)
+? Icons. favorite
+4
+24CS2016 - Building Applications using Flutter
+: Icons. favorite border,
+key: ValueKey(liked.contains(index)),
+color: Colors.red
