@@ -1,0 +1,210 @@
+import 'package:flutter/material.dart';
+import 'package:firebase core/firebase core.dart';
+import 'package:cloud firestore/cloud firestore.dart';
+import 'firebase options.dart';
+main() async {
+WidgetsFlutterB ind ing.ensurelnitialized
+await Firebase. initializeApp(
+
+options: DefaultFirebaseOptions.cun-entPlatfom,
+runApp(const UpdateStudentApp());
+class UpdateStudentApp extends StatelessWidget {
+const UpdateStudentApp({super.key} );
+@override
+Widget build(BuildContext context) {
+return MaterialApp(
+title: 'Update Student Information' ,
+debugShowCheckedM0deBanner: false,
+theme: IhemeData(
+colorScheme: ColorScheme.fromSeed(
+seedC010r. Colon.teal,
+useMateria13 : tme,
+home: const UpdateStudentPage(),
+class UpdateStudentPage extends StatefulWidget {
+const UpdateStudentPage({super.key));
+Override
+createState()
+Update StudentPageState();
+
+
+class UpdateStudentPageState
+extends State<UpdateStudentPage> {
+final registrationContr011er = TextEditingController();
+final nameContr011er = TextEditingController();
+final departmentController = TextEditingControllerO;
+final marksContr011er = TextEditingController();
+bool isLoading = false;
+bool recordFound false;
+Future<void> loadStudent() async {
+final regNo = registrationController.text.trim();
+if (regN0.isEmpty) {
+showMessageCPlease enter a registration number.');
+isLoading = true;
+recordFound = false;
+try {
+final document = await FirebaseFirestore.instance
+.collectionCstudents')
+.doc(regNo)
+.get();
+if (!mounted) return;
+if (!document.exists) {
+nameContr011er.clear();
+departmentContr011er.clea«);
+mark Controller.clear();
+
+recordFound = false;
+showMessage('Student record not found.');
+final data = document.data()!;
+nameContr011er.text =
+departmentController.text =
+data['department'l? .toString() ??
+marksContr011er.text —
+recordF0und = hue;
+ShowMessageCStudent record loaded successfully.');
+} catch (e) {
+if (mounted) {
+showMessage(
+'Unable to retrieve record. Check Firestore access.' ,
+} finally {
+if (mounted) {
+setState(() {
+isLoading = false;
+
+
+Future<void> updateStudentO async {
+final regN o = registrationController.text.trim();
+final name = nameContr011er.text.trim();
+fmal department — departmentController.text.trim();
+final marksText = marksContr011er.text.trim();
+final marks = int.twParse(marksText);
+if (!recordFound) {
+showMessage('Search for an existing student fint.');
+if (name.isEmpty II
+department.isEmpty II
+marksText.isEmpty II
+marks = null II
+marks < O II
+marks > 100) {
+showMessage(
+'Enter valid details. Marks must be between O and 100.',
+setState(() {
+isLoading true;
+try {
+await FirebaseFirestore instance
+.collection(' students')
+5
+24CS2016
+.doc(regN0)
+'name': name,
+- Building Applications using Flutter
+URK23CS5107
+'department': department,
+'marks': marks,
+'updatedAt': FieldVa1ue. serverTimestamp(),
+if (!mounted) retum;
+showMessage(
+'Student information updated successfully.' ,
+} catch (e) {
+if (mounted) {
+showMessage(
+Update failed. Check the record and Firestore permissions.' ,
+} finally {
+if (mounted) {
+isLoading — false;
+void showMessage(String message) {
+Scaffold Messenger.of(context). show SnackB
+SnackB
+content: Text(message),
+
+Override
+void dispose() {
+
+registrationContr011er. dispose();
+nameContr011er.dispose();
+d epartmentController. d ispose();
+marksController.dispose();
+super. dispose();
+Overrid e
+Widget build(BuildContext context) {
+return Scaffold(
+appBar. AppBar(
+title: const Text(Update Student Information'),
+centerTitle: true,
+backgroundColor: Colors.teal,
+foregroundC010r. Colors.white,
+body: Center(
+child: SingleChi1dScr011View(
+padding: const Edgelnsets.a11(20),
+child: ConstrainedBox(
+constraints: const BoxConstraints(maxWidth: 550),
+child: Column(
+crossAxisAlignment: CrossAxisAlignment.stretch,
+children: [
+const Icon(
+
+Icons.edit note,
+size: 65,
+color: Colon.teal,
+const Text(
+'Update Student Record' ,
+textA1ign: TextAlign.center,
+style: TextStyle(
+fontSize: 23,
+fontWeight: FontWeight.b01d,
+const SizedBox(height: 24),
+TextFie1d(
+controller. registrationContr011er,
+decoration: const
+labelText: Registration Number,
+hintText: 'Enter registration number,
+prefixlcon: Icon(lcons.badge),
+border. OutlineInputBorderO,
+const SizedBox(height: 12),
+OutlinedButton. icon(
+onPressed: isLoading ? null : loadStudent,
+icon: const Icon(lcons.search),
+label: const Text('Load Student Record'),
+const SizedBox(height: 20),
+TextField(
+
+controller. nameContr011er,
+enabled: recordF0und !isLoading,
+decoration: const
+labelText: 'Student Name',
+prefixlcon: Icon(lcons.person),
+border. OutlineInputBorderO,
+const SizedBox(height: 12),
+TextFie1d(
+controller: depanmentController,
+enabled: recordFound !isLoading,
+decoration: const InputDecomtion(
+labelText: 'Department' ,
+prefixlcon: Icon(lcons.school),
+border. OutlinelnputBord er(),
+const SizedBox(height: 12),
+TextField(
+controller: marksContr011er,
+enabled: recordFound && !isLoading,
+keyboardType: TextlnputType.number,
+decoration: const InputDecoration(
+labelText: Marks (0-100)',
+prefixlcon: Icon(lcons.grade),
+border.
+const SizedBox(height: 20),
+
+E icon(
+onPressed:
+isLoading II !recordFound
+? null
+: updateStudent,
+icon: const Icon(lcons.save),
+label: const Text(
+Update Student Information',
+style: ElevatedButton.styleFrom(
+backgroundColor. Colors.teal,
+foreground Color: Colors.white,
+padding: const Edgelnsets.all(16),
+if (isLoading)
+const SizedB0x(height: 20),
+const Center(
+child: CircularProgressIndicatorO
