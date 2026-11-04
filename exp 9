@@ -1,0 +1,187 @@
+import 'package:flutter/materiaLdart';
+import 'package:firebase core/firebase core.dart';
+import 'package:cloud firestore/cloud firestore.dart';
+import 'firebase options.dart';
+Future<void> main() async
+WidgetsFlutterB ind ing.ensurelnitialized O;
+await Firebase. initializeApp(
+options: DefaultFirebaseOptions.cun•entPlatform,
+24CS2016 — Building Applications using Flutter
+runApp(const FirestoreSea1thApp());
+class FirestoreSearchApp extends StatelessWidget {
+const super.key});
+@override
+Widget build(BuildContext context) {
+retum MaterialApp(
+title: 'Firestore Student Search',
+debugShowCheckedModeBanner: false,
+theme: IhemeData(
+colorScheme: ColorScheme.fromSeed(
+seedC010r. Colors.indigo,
+useMateria13 : true,
+home: const StudentSearchPage(),
+class StudentSearchPage extends StatefulWidget {
+const StudentSearchPage({super.key));
+@override
+createState() StudentSearchPageState();
+
+class _ StudentSearchPageState extends {
+final TextEditingContmller searthController =
+TextEditingController();
+List<Map<String, dynamic>> students = [J,
+bool isLoading = false;
+String message —
+'Enter a student name or registration number.'•
+Future<void> searchStudents() async {
+final String searchText searchController.text.trim();
+if (searchText.isEmpty) {
+students = [l;
+message = 'Please enter a search value.';
+setState(() {
+isLoading = true;
+students = [l;
+message = n;
+try {
+final collection =
+FirebaseFirestore instance.
+
+// Search by exact registration number.
+final registrationQuery = await collection
+-where(
+'registrationNumbe1J ,
+isEqua1To: searchText,
+. get();
+Search by exact student name.
+final nameQuery = await collection
+.where(
+isEqualTo: searchText,
+.get();
+// Combine results without duplicating documents.
+final Map<String, Map<String, dynamic>> results
+for (final document in registrationQuery.docs) {
+results[document.id] = document.data();
+for (final document in nameQuery.docs) {
+results[document.id] document.data();
+if (!mounted) return;
+
+students =
+message = students.isEmpty
+? No matching student found.'
+. 'Search completed successfully.';
+} catch (error) {
+if (!mounted) retum;
+setState(() {
+students [J;
+message =
+'Search failed. Please check your
+'internet connection and Firestore perrnissions. ' ;
+} finally {
+if (mounted) {
+isLoading = false;
+@override
+void dispose() {
+searchController. dispose() ;
+super. dispose();
+5
+URK23CS5107
+24CS2016 - Building Applications using Flutter
+@override
+Widget build(BuildContext context) {
+retum Scaffold(
+appBar. AppBar(
+title: const Text('Firestore Student Search'),
+centerTit1e: true,
+backgroundC010r: Colors.indigo,
+foregroundC010r: Colors.white,
+body: Center(
+child: SingleChi1dScr011View(
+padding: const Edgelnsets.all(20),
+child: ConstrainedBox(
+constraints: const BoxConstmints(
+maxWidth: 600,
+child: Column(
+crossAxisAlignment: CrossAxisAlignment.stretch,
+children: [
+const Icon(
+Icons.search,
+size: 65,
+color. Colors.indigo,
+const SizedBox(height: 12),
+const Text(
+'Search Student Information' ,
+textAlign: TextAlign.center,
+style: TextStyle(
+fontSize: 23,
+
+fontWeight: FontWeight.b01d,
+const SizedBox(height: 20),
+TextField(
+controller: searchController,
+decoration: const InputDecoration(
+labelText: Name or Registration Number,
+hintText: 'Enter student details',
+prefixlcon: Icon(lcons.person search),
+border: OutlineInputBord er(),
+onSubmitted: (_) searchStudents(),
+const SizedBox(height: 15),
+EButton.icon(
+onpressed: isLoading ? null : searchStudents,
+icon: const Icon(lcons.search),
+label: const Text('Search Student'),
+style: ElevatedButton.styleFrom(
+backgroundColor: Colors-indigo,
+foreground Color: Colors.white,
+padding: const Edgelnsets.all(15),
+const SizedBox(height: 20),
+if (isLoading)
+const Center(
+child: CircularProgressIndicator(),
+
+if (!iSLoading message.isN 0tEmpty)
+Text(
+message,
+textAlign: TextAlign.center,
+style: const TextStyle(fontSize: 15),
+const SizedBox(height: 12),
+...students.map((student) {
+retum Card(
+elevation: 3,
+margin: const Edgelnsets.only(bottom: 12),
+child: Padding(
+padding: const Edgelnsets.all(16),
+child: Column(
+crossAxisAlignment:
+Cross AxisAlignment.start,
+children: [
+Text(
+student['name']?.toStringO ?? 'N/A',
+style: const TextStyle(
+fontSize: 20,
+fontWeight: Font Weight.bold,
+const Divider(),
+buildDetai1(
+Registration Number' ,
+stud ent['registrationNumber'],
+buildDetail(
+
+'Department',
+student['department'],
+buildDetail(
+'Marks'
+student['marks'],
+Widget buildDetai1(String label, dynamic value) {
+retum Padding(
+padding: const Edgelnsets. symmetric(vertical: 5),
+child : Row(
+crossAxisA1ignment: CrossAxisAlignment.start,
+children: [
+Expanded(
+flex: 2,
+child: Text(
+'Slabel:',
+
+style: const TextStyle(
+fontWeight: FontWeight.w600,
+Expanded(
+flex: 3,
+child: Text(value?.toString() ?? N/A')
