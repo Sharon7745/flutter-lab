@@ -1,0 +1,249 @@
+import 'package:flutter/material.dart';
+import 'package:firebase core/firebase core.dart';
+import 'package:cloud firestore/cloud firestore.dart';
+irnport 'firebase options.dart';
+Future<void> main() async {
+Widget sFlutterB ind ing.ensurelnitialized
+await Firebase .initializeApp(
+options: DefaultFirebaseOptions.cun•entPlatform,
+
+runApp(const StudentFirestoreApp());
+class StudentFirestoreApp extends StatelessWidget {
+const StudentFirestoreApp({super.key});
+@override
+Widget build(BuildContext context) {
+retum MaterialApp(
+debugShowCheckedModeBanner: false,
+title: 'Student Records - Firestore',
+theme: IhemeData(
+colorScheme: ColorScheme.fromSeed(
+seedC010r. Colors.indigo,
+useMateria13 : true,
+home: const StudentHomePageO,
+class StudentHomePage extends StatefulWidget {
+const }
+@override
+createState() StudentHomePageState();
+
+class
+final
+final
+final
+final
+final
+StudentHomePageState extends {
+formKey =
+nameContr011er = TextEditingController();
+regNoController = TextEditingController();
+departmentController = TextEditingControllerO,
+marksContr011er = TextEditingController();
+final CollectionReference<Map<String, dynamic>> students =
+FirebaseFirestore. instance .collection(' stud ents');
+bool isSaving = false;
+saveStudent() async {
+if formKey.currentState! .validate()) {
+isSaving = true;
+try {
+final registrationNumber —
+regNoContr011er.text .trim() .toUpperCase();
+await students.doc(registrationNumber).set({
+'name': nameController.text.trim(),
+'registrationNumbee: registrationNumber,
+'department': _departmentContr011er.text.trim(),
+'marks':
+3
+24CS2016 - Building Applications using Flutter
+'created At': FieldValue.serverTimestamp(),
+if (!mounted) retum;
+nameContr011er.clear();
+regNoContr011er. clear();
+departmentController.c1ear();
+marksContr011er.clear();
+showMessage('Student record saved successfully!');
+} catch (error) {
+if (!mounted) return;
+showMessageCError saving student: $errof);
+} finally {
+if (mounted) {
+isSaving = false;
+void showMessage(String message) {
+Scaffold Messenger.of(context). show SnackB
+SnackBar(
+content: Text(message),
+behavior: SnackBarBehavior.floating,
+
+@override
+void dispose() {
+
+nameContr011er. d ispose();
+regNoContr011er. dispose();
+d epartrnentContr011er. dispose O;
+marksContr011er. dispose();
+super. dispose();
+@override
+Widget build(BuildContext context) {
+return Scaffold(
+appBar: AppBar(
+title: const Text(
+'Student Records - Firestore',
+style: TextStyle(
+fontWeight: FontWeight.bold,
+color. Colors.white,
+backgroundC010r: Colors. indigo,
+foregroundC010r. Colors.white,
+centerTit1e: true,
+body: Center(
+child: ConstrainedBox(
+constraints: const BoxConstraints(maxWidth: 850),
+child: ListView(
+
+padding: const Edgelnsets.all(20),
+children: [
+Card(
+elevation: 3 ,
+child: Padding(
+padding: const Edgelnsets.all(20),
+child: Form(
+key: formKey,
+child: Column(
+crossAxisAlignment: CrossAxisAlignment .stretch,
+children: [
+const Text(
+'Enter Student Details' ,
+style: TextStyle(
+fontSize: 22,
+fontWeight: Font Weight. bold,
+const SizedBox(height: 20),
+TextFormField (
+controller. nameController,
+decoration: const InputDecoration(
+labelText: 'Student Name',
+prefixlcon: Icon(lcons.person),
+border: Outline[nputBorder(),
+validator. (value) {
+if (value null II {
+return 'Please enter student name';
+
+retum null;
+const SizedBox(height: 15),
+TextFormField (
+controller: regNoController,
+decoration: const InputDecoration(
+labelText: Registration Number,
+prefixlcon: Icon(lcons.badge),
+border: OutlineInputBorder(),
+validator: (value) {
+if (value null II {
+return 'Please enter registration number' ;
+retum null;
+const SizedBox(height: 15),
+TextFormField (
+controller. departmentContr011er,
+decoration: const InputDecoration(
+labelText: 'Department',
+prefixlcon: Icon(lcons.school),
+border: Outline[nputBorder(),
+validator. (value) {
+if (value null II {
+return 'Please enter department';
+
+retum null;
+const SizedBox(height: 15),
+TextFormField (
+controller. marksController,
+keyboardType:
+const TextlnputType.numberWithOptions(
+decimal: true,
+decoration: const InputDecoration(
+labelText: 'Marks (0-100)',
+prefixlcon: Icon(lcons.grade),
+border: OutlineInputBorder(),
+validator. (value) {
+if (value = null II {
+retum 'Please enter marks';
+final marks —
+double.tryP
+if (marks null II
+marks < O II
+marks > 100) {
+retum 'Enter marks between O and 100';
+retum null;
+const SizedBox(height: 20),
+
+E icon(
+onPressed: isSaving ? null : saveStudent,
+icon: isSaving
+? const SizedBox(
+height: 18,
+width: 18,
+child: CircularProgressIndicato«
+strokeWidth: 2,
+color: Colors.white,
+: const Icon(lcons.cloud upload),
+label: Text(
+isSaving
+? 'Saving...'
+: 'Save Student to Firestore',
+style: ElevatedButton.styleFrom(
+backgroundColor: Colors.indigo,
+foregroundColor: Colors.white,
+padding: const Edgelnsets.symmetric(
+vertical: 15,
+
+const SizedB0x(height: 25),
+const Text(
+'Saved Student Records',
+style: TextStyle(
+fontSize: 22,
+fontWeight: FontWeight.bold,
+const SizedBox(height: IO),
+dynamic>>>(
+stream: students
+.orderByCregistrat ionNumber' )
+snapshots O,
+builder: (context, snapshot) {
+if (snapshot.hasEtT0r) {
+retum Card(
+child: Padding(
+padding: const Edgelnsets.all(16),
+child: Text(
+'Error loading records: ${snapshot.error}',
+if (snapshot.connectionState
+ConnectionState.waiting &&
+! snapshot.hasData) {
+retum const Padding(
+padding: Edgelnsets.all(24),
+
+child: Center(
+child: CircularProgressIndicatorO,
+final documents = snapshot.data?.docs ?? [J;
+if (documents.isEmpty) {
+retum const Card(
+child: Padding(
+padding: Edgelnsets.all(20),
+child: Center(
+child: Text(
+NO student records found.
+'Add a student using the form above.' ,
+retum Column(
+children: documents.map((document) {
+final student = document.data();
+retum Card(
+margin: const Edgelnsets.only(bottom: 12),
+child: ListTi1e(
+leading: const CircleAvatar(
+
+background Color: Colors.indigo,
+foregroundC010r: Colors.white,
+child: Icon(lcons.person),
+title: Text(
+style: const TextStyle(
+fontWeight: FontWeight bold,
+subtitle: Padding(
+padding: const Edgelnsets.only(top: 6),
+child: Text(
+Registmtion No:
+'Department:
+'Marks: ?? "}',
+isThreeLine: true,
+)).toList()
