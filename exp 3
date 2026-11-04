@@ -1,0 +1,117 @@
+impon 'package:flutter/material.dart';
+void main() {
+runApp(const MyApp());}
+class MyApp extends StatelessWidget {
+const
+@override
+Widget build(BuildContext context) {
+retum MaterialApp(
+d ebugShowCheckedM0deBanner: false,
+title: 'Dynamic ListView' ,
+
+useMateria13 : false,
+scaffoldBackgroundColor: const
+home: const ProductPage(),
+// Product class
+class Product {
+final String name;
+final int price;
+final int quantity;
+const Product(this.name, this.price, this.quantity);
+class Productpage extends StatelessWidget {
+const Productpage( { super.key});
+// List of Product objects
+static const List<Product> products = [
+Product('App1e Laptop', 100000, 5),
+ProductCHP Laptop', 80000, 3),
+Product('iPhone 16' 70000, 6),
+ProductCSamsung Mobile', 50000, 2),
+Product('Smart TV', 45000, 10),
+Productconemus Mobile', 40000, 5),
+// SnackBar when a product row is tapped
+void showProductSnackBa1(
+BuildContext context, Product product) {
+
+Scaffold Messenger.of(context). show
+SnackBar(
+content: Text('You tapped on $ {product.name}
+duration: const Duration(seconds: 2),
+// AlertDialog when Order More is clicked
+void showOrderDialog(BuildContext context, Product product) {
+showDia10g<void>(
+context: context,
+builder: (dialogContext) {
+return AlertDialog(
+shape: RoundedRectangleBorde1(
+borderRadius: BorderRadius.circular(28),
+title: const TextCPmduct Order Form'),
+content: Text(
+'S {product.name} order
+'Price: O
+Quantity: S {product.quantity}
+'Total: o {product.price * product-quantity}
+actions: [
+TextButton(
+onPressed:() {
+Navigator. pop(d ialogContext) ;
+Scaffold Messenger.o (context). sho w SnackB
+SnackB
+content: Text(
+
+'S {product.name} Order is placed successfully!' ,
+duration: const Duration(seconds: 2),
+child: const TextCOK'),
+1,
+@override
+Widget build(BuildContext context) {
+return Scaffold(
+appBar. AppBa1(
+title: const Text(Dynamic ListView'),
+centerTit1e: true,
+backgroundColor. const Color(0xFFE887A7),
+foregroundColor. Colors.black87 ,
+// Generate rows dynamically from Product objects
+body: ListView. builder(
+itemCount: products.length,
+itemBuilder. (context, index) {
+final product = products[ind ex];
+return Column(
+children: [
+
+ListTile(
+contentPadding: const Edgelnsets.symmetric(
+horizontal: 16,
+vertical: 8,
+// First letter inside CircleAvatar
+leading: CircleAvatar(
+radius: 24,
+backgroundC010r. const Color(OxFFE8D9FA),
+child: Text(
+product.name[0],
+style: const TextStyle(
+color. Color(OxFF66508E),
+fontSize: 18,
+// Tap the row to show a SnackBar
+onTap: () {
+showProductSnackB ar(context , product);
+title: Text(
+product.name,
+style: const TextStyle(fontSize: 18),
+subtitle: Text(
+'Z.S {product.price} ,Quantity:S {product.quantity) ' ,
+style: const TextStyle(fontSize: 14),
+
+trailing: ElevatedButton(
+onPressed: O {
+showOrderDialog(context, product);
+style: ElevatedButton.styleFrom(
+backgroundC010r. const Color(0xFF43A847),
+foregroundC010r. Colors.white,
+elevation: 0,
+padding: const Edgelnsets.symmetric(
+horizontal: 14,
+vertical: 11,
+shape: RoundedRectangleBorde1(
+borderRadius: BorderRadius.circular(24),
+child: const TextCOrder More'),
+const Divider(height: 1)
